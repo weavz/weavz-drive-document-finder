@@ -1,0 +1,102 @@
+{
+  "id": "drive-document-finder",
+  "title": "Google Drive Document Finder",
+  "prompt": "Find the best matching project documents from the supplied Drive query, verify one candidate’s metadata, and return a short ranked shortlist with reasons.",
+  "instructions": "Use only the requested search query and result page. Search results identify candidates; call get_file for the selected candidate before describing its metadata as verified. Do not open or share unrelated files, assume access to document contents, or claim that the shortlist covers all Drive files. Preserve the synthetic file IDs and modified timestamps.",
+  "fixture_summary": "Synthetic Drive search returns three release-planning documents. A metadata read confirms the newest checklist candidate and its modified time.",
+  "inputs": {
+    "query": "name contains 'release' and mimeType = 'application/vnd.google-apps.document'",
+    "pageSize": 3
+  },
+  "steps": [
+    {
+      "id": "search_release_docs",
+      "alias": "project_drive",
+      "integration": "google-drive",
+      "action": "search_files",
+      "tool": "project_drive__search_files",
+      "arguments": {
+        "query": "name contains 'release' and mimeType = 'application/vnd.google-apps.document'",
+        "pageSize": 3
+      },
+      "records": [
+        {
+          "id": "drive-file-401",
+          "app": "Google Drive",
+          "title": "Release readiness checklist",
+          "detail": "Synthetic search hit for the release-planning query.",
+          "url": "https://example.com/records/drive-file-401",
+          "file_id": "drive-file-401",
+          "mime_type": "application/vnd.google-apps.document",
+          "modified_at": "2026-11-13T16:00:00Z",
+          "candidate_rank": 1
+        },
+        {
+          "id": "drive-file-402",
+          "app": "Google Drive",
+          "title": "Regional launch notes",
+          "detail": "Synthetic search hit; older notes cover launch regions.",
+          "url": "https://example.com/records/drive-file-402",
+          "file_id": "drive-file-402",
+          "mime_type": "application/vnd.google-apps.document",
+          "modified_at": "2026-11-10T09:00:00Z",
+          "candidate_rank": 2
+        },
+        {
+          "id": "drive-file-403",
+          "app": "Google Drive",
+          "title": "Release retrospective template",
+          "detail": "Synthetic search hit; a blank retrospective template.",
+          "url": "https://example.com/records/drive-file-403",
+          "file_id": "drive-file-403",
+          "mime_type": "application/vnd.google-apps.document",
+          "modified_at": "2026-10-20T12:00:00Z",
+          "candidate_rank": 3
+        }
+      ]
+    },
+    {
+      "id": "verify_checklist_metadata",
+      "alias": "project_drive",
+      "integration": "google-drive",
+      "action": "get_file",
+      "tool": "project_drive__get_file",
+      "arguments": {
+        "fileId": "drive-file-401",
+        "fields": "id,name,mimeType,modifiedTime,webViewLink"
+      },
+      "records": [
+        {
+          "id": "drive-file-401",
+          "app": "Google Drive",
+          "title": "Release readiness checklist",
+          "detail": "Verified synthetic metadata: Google Doc, modified 2026-11-13T16:00:00Z. This metadata action does not fetch document body text.",
+          "url": "https://example.com/records/drive-file-401",
+          "file_id": "drive-file-401",
+          "mime_type": "application/vnd.google-apps.document",
+          "modified_at": "2026-11-13T16:00:00Z",
+          "candidate_rank": 1,
+          "metadata_verified": true,
+          "body_read": false
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "name": "matching_documents",
+      "op": "count"
+    },
+    {
+      "name": "metadata_verified_candidates",
+      "op": "count",
+      "where": {
+        "metadata_verified": true
+      }
+    }
+  ],
+  "expected_metrics": {
+    "matching_documents": 3,
+    "metadata_verified_candidates": 1
+  }
+}

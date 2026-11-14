@@ -1,4 +1,20 @@
-# Google Drive Document Finder
+# Google Drive MCP agent with PydanticAI: Google Drive Document Finder
+
+<!-- weavz:discovery:start -->
+
+Use Google Drive with PydanticAI through Weavz MCP. This google drive document finder example returns a report from bounded app reads with source references.
+
+**Framework:** PydanticAI · **Language:** Python · **MCP modes:** Tool Mode and Code Mode
+
+Use another framework:
+
+- [Google Drive MCP with Google ADK Python](https://github.com/weavz/weavz-google-adk-python/blob/main/docs/app-recipes.md#google-drive-mcp-with-google-adk-python)
+- [Google Drive MCP with LlamaIndex Python](https://github.com/weavz/weavz-llamaindex/blob/main/docs/app-recipes.md#google-drive-mcp-with-llamaindex-python)
+- [Google Drive MCP with Semantic Kernel Python](https://github.com/weavz/weavz-semantic-kernel/blob/main/docs/app-recipes.md#google-drive-mcp-with-semantic-kernel-python)
+
+[MCP app and framework directory](https://github.com/weavz/mcp-examples/blob/main/docs/integrations.md) · [All examples](https://github.com/weavz/mcp-examples) · [Weavz MCP guide](https://weavz.io/docs/guides/agent-framework-examples)
+
+<!-- weavz:discovery:end -->
 
 Find the best matching project documents from the supplied Drive query, verify one candidate’s metadata, and return a short ranked shortlist with reasons.
 
